@@ -31,8 +31,9 @@
     padding: 12px;
     margin: 8px;
     text-align: center;
-    display: flex;
-    flex-direction: column;
+    display: inline-block;
+    /* display: flex;
+    flex-direction: column; */
     word-break: keep-all;
   }
   
