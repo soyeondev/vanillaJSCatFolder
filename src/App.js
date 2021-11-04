@@ -1,7 +1,7 @@
 import api from "./api/theCatAPI.js";
-import Node from './components/Node.js';
+import Nodes from './components/Node.js';
 
-export default class App {
+function App ($app){
     this.state = {
         isRoot: false,
         nodes: [],
@@ -27,3 +27,5 @@ export default class App {
         }
     });
 }
+
+export default App

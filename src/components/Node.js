@@ -21,3 +21,5 @@ function Nodes({$app, initialState, onClick}){
 
     this.render()
 }
+
+export default Nodes;
