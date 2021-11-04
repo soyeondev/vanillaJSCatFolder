@@ -15,6 +15,7 @@ function Nodes({$app, initialState, onClick}){
     this.onClick = onClick
 
     this.render = () => {
+        console.log("li: ", this.state);
         this.$target.innerHTML = this.state.nodes.map(node => `<li>${node.name}</li>`)
     }
 
