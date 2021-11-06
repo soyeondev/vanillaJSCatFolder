@@ -16,3 +16,5 @@ function Breadcrumb ({$app, initialState}) {
                 (node, index) => `<div class="nav-item" data-index="${index}">${node.name}</div>`).join('')})}`
     }
 }
+
+export default Breadcrumb;
