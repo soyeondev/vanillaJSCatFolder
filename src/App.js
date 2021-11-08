@@ -1,4 +1,4 @@
-import api from "./api/theCatAPI.js";
+import request from "./api/theCatAPI.js";
 import Nodes from './components/Node.js';
 import Breadcrumb from './components/Breadcrumb.js';
 
@@ -43,7 +43,7 @@ function App ($app){
     const init = async () => {
         try {
             const rootNodes = await request()
-            console.log("rootNodes: ", rootNodes);
+            await console.log("rootNodes: ", rootNodes);
             this.setState({
                 ...this.state,
                 isRoot: true,
@@ -53,7 +53,6 @@ function App ($app){
             
         }
     }
-
     init()
 }
 

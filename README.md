@@ -48,3 +48,26 @@ function Nodes({$app, initialState, onClick}){
     // 인스턴스화 이후 바로 render 함수를 실행하며 new로 실행하자마자 렌더링되도록 할 수 있음
     this.render()
 }
+
+- fetch로 데이터 불러오기 
+fetch 함수는 기본적으로 url을 파라메터로 받고 Promise 형태로 처리한다.   
+fetch()로 부터 반환되는 Promise 객체는 HTTP error 상태를 reject하지 않는다. 따라서 요청이 성공했는지 체크하기 위해 response의 ok를 체크해야 한다.   
+* Promise란?   
+[ [javascript] Promise개념과 활용](https://soyeondev.tistory.com/311)
+
+* fetch   
+```javascript
+fetch('http://example.com/movies.json')
+    .then((response) => {
+        if(!response.ok){
+            throw new Error('http 오류')
+        }
+        return response.json();
+    })
+    .then((myJson) => {
+        console.log(JSON.stringify(myJson));
+    })
+    .catch(e => {
+        alert(e.message)
+    })
+```
