@@ -6,6 +6,7 @@ function Breadcrumb ({$app, initialState}) {
     $app.appendChild(this.$target)
 
     this.setState = nextState => {
+        console.log("bread nextState: ", nextState);
         this.state = nextState
         this.render()
     }
@@ -13,7 +14,7 @@ function Breadcrumb ({$app, initialState}) {
     this.render = () => {
         this.$target.innerHTML = `<div class="nav-item">root</div>${
             this.state.map(
-                (node, index) => `<div class="nav-item" data-index="${index}">${node.name}</div>`).join('')})}`
+                (node, index) => `<div class="nav-item" data-index="${index}">${node.name}</div>`).join('')}`
     }
 }
 

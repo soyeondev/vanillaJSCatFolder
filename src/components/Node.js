@@ -9,6 +9,7 @@ function Nodes({$app, initialState, onClick}){
 
     // state를 받아 현재 컴포넌트의 state를 변경하고 다시 렌더링
     this.setState = (nextState) => {
+        console.log("node nextState: ", nextState);
         this.state = nextState
         this.render()
     }
@@ -20,22 +21,25 @@ function Nodes({$app, initialState, onClick}){
                 const iconPath = node.type === 'FILE' ? './assets/file.png' : './assets/directory.png'
 
                 return `
-                    <div class="Node" data-node-id="${node.id}">
-                        <img src="${iconPath}" />
+                    <div class="Node" data-id="${node.id}">
+                        <img src="${iconPath}" width="100px" height="100px"/>
                         <div>${node.name}</div>
                     </div>
                 `
             }).join('')
-            this.$target.innerHTML = this.state.isRoot ? `<div class="Node"><img src="/assets/prev.png"></div>${nodesTemplate}` : nodesTemplate
+            this.$target.innerHTML = this.state.isRoot ? `<div class="Node"><img src="/assets/prev.png" width="100px" height="100px"></div>${nodesTemplate}` : nodesTemplate
         }
 
         // 렌더링된 이후 클릭 가능한 모든 요소에 click 이벤트 걸기
         this.$target.querySelectorAll('.Node').forEach($node => {
+            console.log("$node: ", $node);
             $node.addEventListener('click', (e) => {
+                console.log(e.currentTarget);
                 const {nodeId} = e.target.dataset
                 const selectedNode = this.state.nodes.find(node => node.id === nodeId)
                 
                 if(selectedNode){
+                    console.log("selectedNode: ", selectedNode);
                     this.onClick(selectedNode)
                 }
             })
