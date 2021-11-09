@@ -1,16 +1,25 @@
 import request from "./api/theCatAPI.js";
 import Nodes from './components/Node.js';
 import Breadcrumb from './components/Breadcrumb.js';
+import ImageView from './components/ImageView.js';
 
 function App ($app){
     this.state = {
         isRoot: false,
         nodes: [],
-        depth: []
+        depth: [],
+        selectedFilePath: null
     }
+    // ImageView component
+    const imageView = new ImageView({
+        $app,
+        initialState: this.state.selectedFilePath
+    })
 
+    // Breadcrumb component
     const breadcrumb = new Breadcrumb({$app, initialState: this.state.depth})
 
+    // Nodes component
     const nodes = new Nodes({
         $app,
         initialState: {
@@ -32,7 +41,11 @@ function App ($app){
                     // 여기에서 Breadcrumb 관련 처리를 하게되면, Node에서는 Breadcrumb를 몰라도 됨
                 }else if(node.type === 'FILE'){
                     // FILE인 경우 처리
-                    
+                    // ImageView 컴포넌트에 filePath state를 넘겨준다.
+                    this.setState({
+                        ...this.state,
+                        selectedFilePath: node.filePath
+                    })
                 }
             } catch(e){
 
@@ -50,6 +63,7 @@ function App ($app){
             isRoot: this.state.isRoot,
             nodes: this.state.nodes
         })
+        imageView.setState(this.state.selectedFilePath)
     }
 
     // 사진첩 초기 로드시 기본 데이터를 받아온다.

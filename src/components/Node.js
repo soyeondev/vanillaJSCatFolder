@@ -21,7 +21,7 @@ function Nodes({$app, initialState, onClick}){
                 const iconPath = node.type === 'FILE' ? './assets/file.png' : './assets/directory.png'
 
                 return `
-                    <div class="Node" data-id="${node.id}">
+                    <div class="Node" data-node-id="${node.id}">
                         <img src="${iconPath}" width="100px" height="100px"/>
                         <div>${node.name}</div>
                     </div>
@@ -35,7 +35,8 @@ function Nodes({$app, initialState, onClick}){
             console.log("$node: ", $node);
             $node.addEventListener('click', (e) => {
                 console.log(e.currentTarget);
-                const {nodeId} = e.target.dataset
+                const {nodeId} = e.currentTarget.dataset
+                console.log("nodeId: ", nodeId);
                 const selectedNode = this.state.nodes.find(node => node.id === nodeId)
                 
                 if(selectedNode){
