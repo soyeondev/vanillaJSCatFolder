@@ -51,12 +51,38 @@ function App ($app){
 
             }
 
+        },
+        onBackClick: async () => {
+            try{
+                const nextState = {...this.state}
+                nextState.depth.pop()   // 배열에서 pop()해서 빠져나오게 함
+
+                const prevNodeId = nextState.depth.length === 0 ? null : nextState.depth[nextState.depth.length - 1].id
+
+                if(prevNodeId === null) {
+                    const rootNodes = await request()
+                    this.setState({
+                        ...nextState,
+                        isRoot: true,
+                        nodes: rootNodes
+                    })
+                } else {
+                    const prevNodes = await request(prevNodeId)
+                    this.setState({
+                        ...nextNodes,
+                        isRoot: false,
+                        nodes: prevNodes,
+                    })
+                }
+            }catch(e){
+                console.log(e)
+            }
         }
     });
 
     // setState 함수 정의
     this.setState = (nextState) => {
-        console.log("appjs nextState: ", nextState);
+        console.log("appjs nextState: ", nextState)
         this.state = nextState
          breadcrumb.setState(this.state.depth)
         nodes.setState({

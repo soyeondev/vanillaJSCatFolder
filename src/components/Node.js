@@ -1,7 +1,7 @@
 // import fileImg from "../../assets/file.png";
 // import directoryImg from "../../assets/directory.png";
 
-function Nodes({$app, initialState, onClick}){
+function Nodes({$app, initialState, onClick, onBackClick}){
     this.state = initialState
 
     this.$target = document.createElement('ul')
@@ -14,6 +14,8 @@ function Nodes({$app, initialState, onClick}){
         this.render()
     }
     this.onClick = onClick
+
+    this.onBackClick = onBackClick
 
     this.render = () => {
         if(this.state.nodes) {
@@ -37,6 +39,11 @@ function Nodes({$app, initialState, onClick}){
                 console.log(e.currentTarget);
                 const {nodeId} = e.currentTarget.dataset
                 console.log("nodeId: ", nodeId);
+
+                if(!nodeId) {
+                    this.onBackClick()
+                }
+
                 const selectedNode = this.state.nodes.find(node => node.id === nodeId)
                 
                 if(selectedNode){
