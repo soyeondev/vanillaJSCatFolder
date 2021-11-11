@@ -2,14 +2,22 @@ import request from "./api/theCatAPI.js";
 import Nodes from './components/Node.js';
 import Breadcrumb from './components/Breadcrumb.js';
 import ImageView from './components/ImageView.js';
+import Loading from './components/Loading.js';
 
 function App ($app){
     this.state = {
         isRoot: false,
         nodes: [],
         depth: [],
-        selectedFilePath: null
+        selectedFilePath: null,
+        isLoading: false,
     }
+
+    const loading = new Loading({
+        $app, 
+        isLoading: this.state.isLoading
+    })
+
     // ImageView component
     const imageView = new ImageView({
         $app,
@@ -90,10 +98,15 @@ function App ($app){
             nodes: this.state.nodes
         })
         imageView.setState(this.state.selectedFilePath)
+        loading.setState(this.state.isLoading)
     }
 
     // 사진첩 초기 로드시 기본 데이터를 받아온다.
     const init = async () => {
+        this.setState({
+            ...this.state,
+            isLoading: true
+        })
         try {
             const rootNodes = await request()
             await console.log("rootNodes: ", rootNodes);
@@ -104,6 +117,11 @@ function App ($app){
             })
         } catch(e) {
             console.log(e);            
+        } finally {
+            this.setState({
+                ...this.state,
+                isLoading: false
+            })
         }
     }
     init()
