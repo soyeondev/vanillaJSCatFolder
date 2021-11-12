@@ -4,6 +4,7 @@ import Breadcrumb from './components/Breadcrumb.js';
 import ImageView from './components/ImageView.js';
 import Loading from './components/Loading.js';
 
+const cache = {}
 function App ($app){
     this.state = {
         isRoot: false,
@@ -55,6 +56,7 @@ function App ($app){
                         selectedFilePath: node.filePath
                     })
                 }
+                cache[node.id] = nextNodes
             } catch(e){
 
             }
@@ -72,14 +74,14 @@ function App ($app){
                     this.setState({
                         ...nextState,
                         isRoot: true,
-                        nodes: rootNodes
+                        nodes: cache.rootNodes
                     })
                 } else {
                     const prevNodes = await request(prevNodeId)
                     this.setState({
                         ...nextNodes,
                         isRoot: false,
-                        nodes: prevNodes,
+                        nodes: cache[prevNodes],
                     })
                 }
             }catch(e){
@@ -115,6 +117,9 @@ function App ($app){
                 isRoot: true,
                 nodes: rootNodes
             })
+
+            // 캐시에 추가
+            cache.root = rootNodes
         } catch(e) {
             console.log(e);            
         } finally {
