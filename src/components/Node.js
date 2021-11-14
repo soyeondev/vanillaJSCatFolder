@@ -33,27 +33,53 @@ function Nodes({$app, initialState, onClick, onBackClick}){
         }
 
         // 렌더링된 이후 클릭 가능한 모든 요소에 click 이벤트 걸기
-        this.$target.querySelectorAll('.Node').forEach($node => {
-            console.log("$node: ", $node);
-            $node.addEventListener('click', (e) => {
-                console.log(e.currentTarget);
-                const {nodeId} = e.currentTarget.dataset
-                console.log("nodeId: ", nodeId);
+        // this.$target.querySelectorAll('.Node').forEach($node => {
+        //     console.log("$node: ", $node);
+        //     $node.addEventListener('click', (e) => {
+        //         console.log(e.currentTarget);
+        //         const {nodeId} = e.currentTarget.dataset
+        //         console.log("nodeId: ", nodeId);
 
-                if(!nodeId) {
+        //         if(!nodeId) {
+        //             this.onBackClick()
+        //         }
+
+        //         const selectedNode = this.state.nodes.find(node => node.id === nodeId)
+                
+        //         if(selectedNode){
+        //             console.log("selectedNode: ", selectedNode);
+        //             this.onClick(selectedNode)
+        //         }
+        //     })
+        // })
+
+        // 이벤트 최적화 - 이벤트 버블링 사용한 코드
+        this.$target.addEventListener('click', (e) => {
+            // $target 하위에 있는 HTML 요소를 클릭하면 이벤트가 상위로 계속 전파되고 
+            // $target까지 오게 되어 forEach로 매번 이벤트를 걸어주지 않아도 된다.
+            console.log(e.currentTarget);
+
+            const $node = e.target.closest('.Node')
+            console.log("$node: ", $node);
+
+            if($node) {
+                const {nodeId} = $node.dataset
+                console.log("nodeId1: ", nodeId)
+
+                if(!nodeId){
                     this.onBackClick()
+                    return
                 }
 
                 const selectedNode = this.state.nodes.find(node => node.id === nodeId)
-                
+            
                 if(selectedNode){
                     console.log("selectedNode: ", selectedNode);
                     this.onClick(selectedNode)
                 }
-            })
+            }
         })
-    }
-
+    } 
     this.render()
 }
 
