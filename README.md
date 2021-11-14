@@ -78,3 +78,7 @@ fetch('http://example.com/movies.json')
 이벤트 발생 위치(사용자가 클릭한 곳)
 - event.currentTarget
 이벤트 생성 위치(개발자가 지정한 이벤트 발생 위치)
+
+### event 관련 이슈
+- 이슈   render 안에 addEventListener를 선언해서 render함수가 호출되는 만큼 이벤트가 등록되어서 클릭당 render함수 호출 수 만큼 이벤트가 발생하는 이슈가 발생했다.
+- 해결   addEventListener 이벤트 등록을 render 함수 바깥에서 해주어 한번만 이벤트가 등록되도록 하였다.

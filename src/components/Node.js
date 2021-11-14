@@ -7,17 +7,19 @@ function Nodes({$app, initialState, onClick, onBackClick}){
     this.$target = document.createElement('ul')
     $app.appendChild(this.$target)
 
+    this.onClick = onClick
+
+    this.onBackClick = onBackClick
+
     // state를 받아 현재 컴포넌트의 state를 변경하고 다시 렌더링
     this.setState = (nextState) => {
         console.log("node nextState: ", nextState);
         this.state = nextState
         this.render()
     }
-    this.onClick = onClick
-
-    this.onBackClick = onBackClick
 
     this.render = () => {
+        console.log("render in")
         if(this.state.nodes) {
             const nodesTemplate = this.state.nodes.map(node => {
                 const iconPath = node.type === 'FILE' ? './assets/file.png' : './assets/directory.png'
@@ -32,7 +34,12 @@ function Nodes({$app, initialState, onClick, onBackClick}){
             this.$target.innerHTML = this.state.isRoot ? `<div class="Node"><img src="/assets/prev.png" width="100px" height="100px"></div>${nodesTemplate}` : nodesTemplate
         }
 
-        // 렌더링된 이후 클릭 가능한 모든 요소에 click 이벤트 걸기
+
+    } 
+
+    this.render()
+
+            // 렌더링된 이후 클릭 가능한 모든 요소에 click 이벤트 걸기
         // this.$target.querySelectorAll('.Node').forEach($node => {
         //     console.log("$node: ", $node);
         //     $node.addEventListener('click', (e) => {
@@ -57,7 +64,7 @@ function Nodes({$app, initialState, onClick, onBackClick}){
         this.$target.addEventListener('click', (e) => {
             // $target 하위에 있는 HTML 요소를 클릭하면 이벤트가 상위로 계속 전파되고 
             // $target까지 오게 되어 forEach로 매번 이벤트를 걸어주지 않아도 된다.
-            console.log(e.currentTarget);
+            console.log(e.target);
 
             const $node = e.target.closest('.Node')
             console.log("$node: ", $node);
@@ -79,8 +86,7 @@ function Nodes({$app, initialState, onClick, onBackClick}){
                 }
             }
         })
-    } 
-    this.render()
+
 }
 
 export default Nodes;
