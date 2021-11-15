@@ -37,7 +37,7 @@ function Nodes({$app, initialState, onClick, onBackClick}){
 
     } 
 
-    this.render()
+
 
             // 렌더링된 이후 클릭 가능한 모든 요소에 click 이벤트 걸기
         // this.$target.querySelectorAll('.Node').forEach($node => {
@@ -74,6 +74,7 @@ function Nodes({$app, initialState, onClick, onBackClick}){
                 console.log("nodeId1: ", nodeId)
 
                 if(!nodeId){
+                    console.log("onbackclick ?")
                     this.onBackClick()
                     return
                 }
@@ -86,7 +87,7 @@ function Nodes({$app, initialState, onClick, onBackClick}){
                 }
             }
         })
-
+        this.render()
 }
 
 export default Nodes;

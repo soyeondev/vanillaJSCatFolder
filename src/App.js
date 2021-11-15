@@ -38,25 +38,36 @@ function App ($app){
         // 함수를 파라미터로 던지고, Node 내에서 click 발생시 이 함수를 호출하게 함
         // 이런방식으로 구현할 경우 Node 내에서는 click 후 어떤 로직이 일어날지 알아야 할 필요가 없음
         onClick: async (node) => {
-            try {
+            try {                    
+                // DIRECTORY인 경우 처리
+                // 여기에서 Breadcrumb 관련 처리를 하게되면, Node에서는 Breadcrumb를 몰라도 됨
                 if(node.type == "DIRECTORY"){
-                    const nextNodes = await request(node.id)
-                    this.setState({
-                        ...this.state,
-                        depth: [...this.state.depth, node],
-                        nodes: nextNodes
-                    })
-                    // DIRECTORY인 경우 처리
-                    // 여기에서 Breadcrumb 관련 처리를 하게되면, Node에서는 Breadcrumb를 몰라도 됨
+                    if(cache[node.id]){ // 선택한 node가 cache에 있는 경우 처리
+                        this.setState({
+                            ...this.state,
+                            depth: [...this.state.depth, node],
+                            nodes: nextNodes
+                        })
+                    } else {  // 선택한 node가 cache에 없는 경우 처리
+                        const nextNodes = await request(node.id)
+                        this.setState({
+                            ...this.state,
+                            depth: [...this.state.depth, node],
+                            nodes: nextNodes
+                        })
+                        cache[node.id] = nextNodes
+                        console.log("cache[node.id]: ", cache[node.id])
+                        console.log("cache2: ", cache)
+                    }
+                // FILE인 경우 처리
+                // ImageView 컴포넌트에 filePath state를 넘겨준다.
                 }else if(node.type === 'FILE'){
-                    // FILE인 경우 처리
-                    // ImageView 컴포넌트에 filePath state를 넘겨준다.
                     this.setState({
                         ...this.state,
                         selectedFilePath: node.filePath
                     })
                 }
-                cache[node.id] = nextNodes
+
             } catch(e){
 
             }
@@ -65,10 +76,12 @@ function App ($app){
         onBackClick: async () => {
             try{
                 const nextState = {...this.state}
+                console.log("onbackclick1 nextState: ", nextState)
                 nextState.depth.pop()   // 배열에서 pop()해서 빠져나오게 함
+                console.log("onbackclick2 nextState: ", nextState)
 
                 const prevNodeId = nextState.depth.length === 0 ? null : nextState.depth[nextState.depth.length - 1].id
-
+                console.log("prevNodeId: ", prevNodeId)
                 if(prevNodeId === null) {
                     const rootNodes = await request()
                     this.setState({
@@ -76,10 +89,11 @@ function App ($app){
                         isRoot: true,
                         nodes: cache.rootNodes
                     })
+                    console.log("prevNodeId in nodes: ", cache.root)
                 } else {
                     const prevNodes = await request(prevNodeId)
                     this.setState({
-                        ...nextNodes,
+                        ...nextState,
                         isRoot: false,
                         nodes: cache[prevNodes],
                     })
@@ -119,7 +133,7 @@ function App ($app){
             })
 
             // 캐시에 추가
-            cache.root = rootNodes
+            cache.rootNodes = rootNodes
         } catch(e) {
             console.log(e);            
         } finally {
