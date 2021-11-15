@@ -56,8 +56,6 @@ function App ($app){
                             nodes: nextNodes
                         })
                         cache[node.id] = nextNodes
-                        console.log("cache[node.id]: ", cache[node.id])
-                        console.log("cache2: ", cache)
                     }
                 // FILE인 경우 처리
                 // ImageView 컴포넌트에 filePath state를 넘겨준다.
@@ -76,12 +74,8 @@ function App ($app){
         onBackClick: async () => {
             try{
                 const nextState = {...this.state}
-                console.log("onbackclick1 nextState: ", nextState)
                 nextState.depth.pop()   // 배열에서 pop()해서 빠져나오게 함
-                console.log("onbackclick2 nextState: ", nextState)
-
                 const prevNodeId = nextState.depth.length === 0 ? null : nextState.depth[nextState.depth.length - 1].id
-                console.log("prevNodeId: ", prevNodeId)
                 if(prevNodeId === null) {
                     const rootNodes = await request()
                     this.setState({
@@ -89,7 +83,6 @@ function App ($app){
                         isRoot: true,
                         nodes: cache.rootNodes
                     })
-                    console.log("prevNodeId in nodes: ", cache.root)
                 } else {
                     const prevNodes = await request(prevNodeId)
                     this.setState({
@@ -106,7 +99,6 @@ function App ($app){
 
     // setState 함수 정의
     this.setState = (nextState) => {
-        console.log("appjs nextState: ", nextState)
         this.state = nextState
          breadcrumb.setState(this.state.depth)
         nodes.setState({
@@ -125,7 +117,6 @@ function App ($app){
         })
         try {
             const rootNodes = await request()
-            await console.log("rootNodes: ", rootNodes);
             this.setState({
                 ...this.state,
                 isRoot: true,

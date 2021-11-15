@@ -1,6 +1,3 @@
-// import fileImg from "../../assets/file.png";
-// import directoryImg from "../../assets/directory.png";
-
 function Nodes({$app, initialState, onClick, onBackClick}){
     this.state = initialState
 
@@ -13,17 +10,14 @@ function Nodes({$app, initialState, onClick, onBackClick}){
 
     // state를 받아 현재 컴포넌트의 state를 변경하고 다시 렌더링
     this.setState = (nextState) => {
-        console.log("node nextState: ", nextState);
         this.state = nextState
         this.render()
     }
 
     this.render = () => {
-        console.log("render in")
         if(this.state.nodes) {
             const nodesTemplate = this.state.nodes.map(node => {
                 const iconPath = node.type === 'FILE' ? './assets/file.png' : './assets/directory.png'
-
                 return `
                     <div class="Node" data-node-id="${node.id}">
                         <img src="${iconPath}" width="100px" height="100px"/>
@@ -64,25 +58,16 @@ function Nodes({$app, initialState, onClick, onBackClick}){
         this.$target.addEventListener('click', (e) => {
             // $target 하위에 있는 HTML 요소를 클릭하면 이벤트가 상위로 계속 전파되고 
             // $target까지 오게 되어 forEach로 매번 이벤트를 걸어주지 않아도 된다.
-            console.log(e.target);
 
             const $node = e.target.closest('.Node')
-            console.log("$node: ", $node);
-
             if($node) {
                 const {nodeId} = $node.dataset
-                console.log("nodeId1: ", nodeId)
-
                 if(!nodeId){
-                    console.log("onbackclick ?")
                     this.onBackClick()
                     return
                 }
-
                 const selectedNode = this.state.nodes.find(node => node.id === nodeId)
-            
                 if(selectedNode){
-                    console.log("selectedNode: ", selectedNode);
                     this.onClick(selectedNode)
                 }
             }
