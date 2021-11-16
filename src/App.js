@@ -125,7 +125,6 @@ function App ($app){
     this.setState = (nextState) => {
         this.state = nextState
          breadcrumb.setState(this.state.depth)
-         console.log("state.depth: ", this.state.depth)
         nodes.setState({
             isRoot: this.state.isRoot,
             nodes: this.state.nodes

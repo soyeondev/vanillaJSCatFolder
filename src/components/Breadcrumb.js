@@ -8,7 +8,6 @@ function Breadcrumb ({$app, initialState, onClick}) {
     $app.appendChild(this.$target)
 
     this.setState = nextState => {
-        console.log("bread nextState: ", nextState);
         this.state = nextState
         this.render()
     }
@@ -20,13 +19,9 @@ function Breadcrumb ({$app, initialState, onClick}) {
     }
 
     this.$target.addEventListener('click', (e) => {
-        console.log(e.target)
         const $breadcrumb = e.target.closest('.nav-item');
-        console.log("breadcrumb: ", $breadcrumb)
         if($breadcrumb){
             const {index} = $breadcrumb.dataset;
-            console.log(index)
-            console.log("this.state: ", this.state)
             this.onClick(index ? parseInt(index, 10) : null)
         }
     });

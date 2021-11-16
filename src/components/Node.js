@@ -33,12 +33,9 @@ function Nodes({$app, initialState, onClick, onBackClick}){
 
             // 렌더링된 이후 클릭 가능한 모든 요소에 click 이벤트 걸기
         // this.$target.querySelectorAll('.Node').forEach($node => {
-        //     console.log("$node: ", $node);
         //     $node.addEventListener('click', (e) => {
-        //         console.log(e.currentTarget);
         //         const {nodeId} = e.currentTarget.dataset
-        //         console.log("nodeId: ", nodeId);
-
+        
         //         if(!nodeId) {
         //             this.onBackClick()
         //         }
@@ -46,7 +43,6 @@ function Nodes({$app, initialState, onClick, onBackClick}){
         //         const selectedNode = this.state.nodes.find(node => node.id === nodeId)
                 
         //         if(selectedNode){
-        //             console.log("selectedNode: ", selectedNode);
         //             this.onClick(selectedNode)
         //         }
         //     })
