@@ -27,8 +27,6 @@ function Nodes({$app, initialState, onClick, onBackClick}){
             }).join('')
             this.$target.innerHTML = this.state.isRoot ? `<div class="Node"><img src="/assets/prev.png" width="100px" height="100px"></div>${nodesTemplate}` : nodesTemplate
         }
-
-
     } 
 
 

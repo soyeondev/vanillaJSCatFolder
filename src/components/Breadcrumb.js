@@ -1,5 +1,7 @@
-function Breadcrumb ({$app, initialState}) {
+function Breadcrumb ({$app, initialState, onClick}) {
     this.state = initialState
+
+    this.onClick = onClick
 
     this.$target = document.createElement('nav')
     this.$target.className = 'Breadcrumb'
@@ -16,6 +18,20 @@ function Breadcrumb ({$app, initialState}) {
             this.state.map(
                 (node, index) => `<div class="nav-item" data-index="${index}">${node.name}</div>`).join('')}`
     }
+
+    this.$target.addEventListener('click', (e) => {
+        console.log(e.target)
+        const $breadcrumb = e.target.closest('.nav-item');
+        console.log("breadcrumb: ", $breadcrumb)
+        if($breadcrumb){
+            const {index} = $breadcrumb.dataset;
+            console.log(index)
+            console.log("this.state: ", this.state)
+            this.onClick(index ? parseInt(index, 10) : null)
+        }
+    });
+
+    this.render()
 }
 
 export default Breadcrumb;

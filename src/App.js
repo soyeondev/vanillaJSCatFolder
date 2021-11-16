@@ -26,7 +26,31 @@ function App ($app){
     })
 
     // Breadcrumb component
-    const breadcrumb = new Breadcrumb({$app, initialState: this.state.depth})
+    const breadcrumb = new Breadcrumb({$app, initialState: this.state.depth, 
+        onClick: async (index) => {
+            if(index === null){
+                this.setState({
+                    ...this.state,
+                    depth: [],
+                    nodes: cache.rootNodes
+                })
+
+                return
+            }
+            // breadcrumb에서 현재 위치를 누른 경우는 무시
+            if(index === this.state.depth.length - 1){
+                return
+            }
+
+            const nextState = {...this.state}
+            const nextDepth = this.state.depth.slice(0, index + 1)
+
+            this.setState({
+                ...nextState,
+                depth: nextDepth,
+                nodes: cache[nextDepth[nextDepth.length - 1].id]
+            })
+        }});
 
     // Nodes component
     const nodes = new Nodes({
@@ -101,6 +125,7 @@ function App ($app){
     this.setState = (nextState) => {
         this.state = nextState
          breadcrumb.setState(this.state.depth)
+         console.log("state.depth: ", this.state.depth)
         nodes.setState({
             isRoot: this.state.isRoot,
             nodes: this.state.nodes
