@@ -87,7 +87,6 @@ fetch('http://example.com/movies.json')
     this.$target.addEventListener('click', (e) => {
         // $target 하위에 있는 HTML 요소를 클릭하면 이벤트가 상위로 계속 전파되고 
         // .Node까지 오게 되어 forEach로 매번 이벤트를 걸어주지 않아도 된다.
-
         const $node = e.target.closest('.Node')
         if($node) {
             const {nodeId} = $node.dataset
