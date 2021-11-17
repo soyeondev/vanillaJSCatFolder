@@ -11,7 +11,7 @@ function Loading({$app, initialState}) {
     }
 
     this.render = () => {
-        this.$target.innerHTML = `<div class="content"><img src="./assets/nyan-cat.gif"></div>`
+        this.$target.innerHTML = `<div class="content"><img src="./assets/nyan-cat.gif" width="900px" height="500px"></div>`
         this.$target.style.display = this.state ? 'block' : 'none'
     }
 

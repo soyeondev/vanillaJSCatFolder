@@ -79,6 +79,9 @@ fetch('http://example.com/movies.json')
 - event.currentTarget
 이벤트 생성 위치(개발자가 지정한 이벤트 발생 위치)
 
+### Event Bubbling
+- 이벤트 버블링이란 특정 화면 요소에서 이벤트가 발생했을 때 해당 이벤트가 더 상위의 화면 요소들로 전달되어 가는 특성을 의미
+
 
 ## 🤦‍♀️ issue
 
